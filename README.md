@@ -10,6 +10,6 @@ Project Description:
 *Concert search would be through a secondary query (local or alternate means)
 
 *Utilization of additional APIs to return:
- -Tour dates (bandsintown)
- -Limited music videos (IMVDb) 
- -Similar recommendations (Spotify Echo)
+ Tour dates (bandsintown); 
+ Limited music videos (IMVDb);  
+ Similar recommendations (Spotify Echo)
