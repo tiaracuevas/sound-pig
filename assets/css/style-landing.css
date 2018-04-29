@@ -1,0 +1,71 @@
+@font-face {
+    font-family: Avenir;
+    src: url(../fonts/avenir-roman.ttf);
+}
+
+body {
+    background-color: #F9F7F7;
+    font-family: Avenir;
+}
+
+/* Input inherit font from body */
+input, select, textarea, button{font-family:inherit;}
+
+/* No border for input */
+.no-border {
+    border: 0;
+    border-radius: 0 !important;
+    box-shadow: none;
+    border-color: none;
+    -webkit-box-shadow: none;
+}
+
+.no-border:focus {
+    border: 0;
+    box-shadow: none;
+    border-color: none;
+    -webkit-box-shadow: none;
+}
+
+/* Frame for vert centering fix */
+.frame {
+    height: 100vh;
+    position: relative;
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.search {
+    position: relative;
+    transform: translate(0, -98px);
+    text-align: center;
+}
+
+#logo-lg {
+    width: 570px;
+    margin: 20px auto;
+    display: inline-block;
+}
+
+#search-bar {
+    width: 95%;
+    height: 35px;
+    float: left;
+}
+
+#search-bar, textarea {
+    background-color: #F7DAD2;    
+}
+
+#go-btn {
+    height: 35px;
+    float: left;
+    margin-left: 10px;
+}
+
+

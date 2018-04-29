@@ -1,0 +1,245 @@
+body {
+    background-color: #F9F7F7;
+    font-family: Avenir;
+    color: #333834;
+}
+
+/*==========  Font Declarations  ==========*/
+
+@font-face {
+    font-family: Avenir;
+    src: url(../fonts/avenir-roman.ttf);
+}
+
+@font-face {
+    font-family: AvenirHeavy;
+    src: url(../fonts/avenir-heavy.ttf);
+}
+
+@font-face {
+    font-family: AvenirOblique;
+    src: url(../fonts/avenir-oblique.ttf);
+}
+
+/*==========  Input inherit font from body  ==========*/
+
+input, select, textarea, button{font-family:inherit;}
+
+a {
+    font-family: AvenirOblique;
+    text-decoration: none;
+    color: #333834;
+}
+
+h1 {
+    font-family: AvenirOblique;
+    font-size: 24px;
+    margin: 0 0 10px 0;
+}
+
+h2 {
+    font-family: AvenirHeavy;
+    font-size: 14px;
+    margin: 10px 0 5px 0;
+}
+
+/*==========  No border for input  ==========*/
+
+.no-border {
+    border: 0;
+    border-radius: 0 !important;
+    box-shadow: none;
+    border-color: none;
+    -webkit-box-shadow: none;
+}
+
+.no-border:focus {
+    border: 0;
+    box-shadow: none;
+    border-color: none;
+    -webkit-box-shadow: none;
+}
+
+/*==========  Top Bar  ==========*/
+
+#top-bar {
+    display: block;
+    position: relative;
+    margin: 20px auto;
+    padding: 0;
+}
+
+#logo-sm {
+    width: 150px;
+    margin-right: 10px;
+    float: left;
+}
+
+#logo-compact {
+    display: none;
+}
+
+#search-bar {
+    width: 957px;
+    height: 35px;
+    float: left;
+}
+
+#search-bar, textarea {
+    background-color: #F7DAD2;    
+}
+
+#go-btn {
+    height: 35px;
+    float: left;
+    margin-left: 10px;
+}
+
+/*==========  Main Info  ==========*/
+
+#main-info {
+    background: #FFFFFF;
+    padding: 30px 30px 30px 15px;
+    margin-bottom: 30px;
+}
+
+#artist-img {
+    width: 100%;
+}
+
+/*==========  Bottom Container ==========*/
+
+.media-cont {
+    margin: 0;
+}
+
+.thumb-cont {
+    width: 125px;
+    margin-right: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+    float: left;
+}
+
+.top-spacer {
+    margin-top: 30px;
+}
+
+#media-info {
+    background: #FFFFFF;
+    padding: 30px 30px;
+}
+
+/*==========  Tour Info  ==========*/
+
+#tour-info {
+    padding: 0;
+}
+
+#tour-gutter {
+    width: calc(100% - 30px);
+    float: right;
+    background: #FFFFFF;
+    padding: 30px;
+}
+
+
+/*==================================================
+=            Bootstrap 3 Media Queries             =
+==================================================*/
+
+    /*==========  Mobile First Method  ==========*/
+
+    /* Custom, iPhone Retina */ 
+    @media only screen and (min-width : 320px) {
+
+    }
+
+    /* Extra Small Devices, Phones */ 
+    @media only screen and (min-width : 480px) {
+
+    }
+
+    /* Small Devices, Tablets */
+    @media only screen and (min-width : 768px) {
+
+    }
+
+    /* Medium Devices, Desktops */
+    @media only screen and (min-width : 992px) {
+
+    }
+
+    /* Large Devices, Wide Screens */
+    @media only screen and (min-width : 1200px) {
+
+    }
+
+    /*==========  Non-Mobile First Method  ==========*/
+
+    /* Large Devices, Wide Screens */
+    @media only screen and (max-width : 1200px) {
+        #search-bar {
+            width: 757px;
+        }
+    }
+
+    /* Medium Devices, Desktops */
+    @media only screen and (max-width : 992px) {
+        #search-bar {
+            width: 537px;
+        }
+    }
+
+    /* Small Devices, Tablets */
+    @media only screen and (max-width : 768px) {
+        #top-bar {
+            width: 100%; 
+        }
+        #logo-sm {
+            display: none;
+        }
+        #logo-compact {
+            display: block;
+            width: 350px;
+            margin: 0 auto 20px auto;
+        }
+        #search-bar {
+            width: calc(100% - 53px);
+        }
+        #search-cont {
+            margin: 0 auto;
+            display: block;
+            width: 90%;
+        }
+        #media-info {
+            margin-bottom: 30px;
+        }
+        #tour-gutter {
+            width: 100%;
+        }
+    }
+
+    /* Extra Small Devices, Phones */ 
+    @media only screen and (max-width : 480px) {
+        #main-info {
+            padding: 10px;
+        }
+        #artist-pic {
+            margin-bottom: 20px;
+        }
+        #logo-compact {
+            width: 250px;
+        }
+        .thumb-cont {
+            width: 100%;
+        }
+        .thumb-cont img {
+            width: 100%;
+        }
+    }
+
+    /* Custom, iPhone Retina */ 
+    @media only screen and (max-width : 320px) {
+
+    }
