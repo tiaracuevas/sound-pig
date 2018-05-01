@@ -43,8 +43,8 @@ function displayArtist() {
     var artist = localStorage.getItem('artist');
 
     // Query URLs for AJAX queries
-    queryArtistURL = 'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=' + artist +'&api_key=73f4efa4a0115bf9b55ac3d5fffd0d18&format=json';
-    queryTopAlbumsURL = 'http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=' + artist + '&limit=5&api_key=73f4efa4a0115bf9b55ac3d5fffd0d18&format=json';
+    queryArtistURL = 'https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=' + artist +'&api_key=73f4efa4a0115bf9b55ac3d5fffd0d18&format=json';
+    queryTopAlbumsURL = 'https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=' + artist + '&limit=5&api_key=73f4efa4a0115bf9b55ac3d5fffd0d18&format=json';
     queryTourURL = 'https://rest.bandsintown.com/artists/'+artist+'/events?app_id=a64eec781e9652d71e23c47c5670dd39&format=json';
     queryVideosURL = 'https://imvdb.com/api/v1/search/videos?q=' + artist;
 
