@@ -9,7 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!-- Reset -->
-    <script src="assets/css/reset.css"></script>
+    <link rel="stylesheet" href="assets/css/reset.css">
 
     <!-- Bootstrap -->
     <!-- Latest compiled and minified CSS -->
@@ -32,11 +32,36 @@
     <div class="container">
         <div class="search">
             <img src="assets/images/logo-lg.png" id="logo-lg">
-            <input type="text" class="form-control no-border" id="search-bar" placeholder="Search for artists...">
-            <img src="assets/images/go-lg.png" id="go-btn">
+            <div id="search-cont">
+                <input type="text" class="form-control no-border" id="search-bar" placeholder="Search for artists...">
+                <img src="assets/images/go-lg.png" id="go-btn">
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+// On click for GO button
+$('#go-btn').on("click", function(event) {
+    // Set search in localStorage
+    localStorage.clear();
+    localStorage.setItem("artist", $('#search-bar').val());  
+
+    window.location.href="main.html";
+    });
+
+// When enter key pressed, click go button
+var search = $('#search-bar');
+search.on("keyup", function(event) {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13 && search.value !== '') {
+      // Trigger the button element with a click
+      document.getElementById("go-btn").click();
+    }
+  });    
+</script>
 
 </body>
 </html>

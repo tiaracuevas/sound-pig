@@ -9,7 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!-- Reset -->
-    <script src="assets/css/reset.css"></script>
+    <link rel="stylesheet" href="assets/css/reset.css">
 
     <!-- Bootstrap -->
     <!-- Latest compiled and minified CSS -->
@@ -20,6 +20,9 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>  
+
+    <!-- MomentJS -->
+    <script type="text/javascript" src="assets/javascript/moment.min.js"></script>
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/style-main.css">
@@ -44,13 +47,10 @@
 
         <!-- Main Info Container -->
         <div class="row" id="main-info">
-            <div class="col-lg-3 col-md-3 col-sm-5 col-xs-5" id="artist-pic">
-                <img src="http://via.placeholder.com/285x285" id="artist-img">
-            </div>
+            <div class="col-lg-3 col-md-3 col-sm-5 col-xs-5" id="artist-pic"></div>
             <div class="col-lg-9 col-md-9 col-sm-7 col-xs-7" id="artist-info">
-                <h1>Artist Name</h1>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla tempore architecto tempora beatae enim, veniam, modi culpa fugit perferendis sit quo, neque possimus ea nemo. Debitis nobis sapiente quidem laborum. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum eveniet explicabo laborum maiores deserunt possimus adipisci officiis quis, officia ea atque reiciendis tempore molestiae blanditiis. Quas commodi in omnis animi.</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit amet velit officia, perspiciatis sapiente facilis, dicta minima, nostrum repellat exercitationem placeat! Quia, ipsa totam praesentium architecto corporis repudiandae cumque placeat. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quibusdam dolorum, totam ad in possimus similique iste repellat fuga maxime ducimus dolor esse eius enim voluptas labore laborum! Nam, iste eum.</p>
+                <h1 id="artist-header"></h1>
+                <p id="artist-text"></p>
             </div>
         </div>
 
@@ -59,106 +59,23 @@
             <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12" id="media-info">
 
                 <!-- Albums -->
-                <div class="row media-cont" id="albums">
-                    <h1>Albums</h1>
-                    <div class="thumb-cont">
-                        <img src="http://via.placeholder.com/350x350" class="img-responsive">
-                        <h2>Album Name</h2>
-                        <span>Year</span>
-                    </div>
-                    <div class="thumb-cont">
-                        <img src="http://via.placeholder.com/350x350" class="img-responsive">
-                        <h2>Album Name</h2>
-                        <span>Year</span>
-                    </div>
-                    <div class="thumb-cont">
-                        <img src="http://via.placeholder.com/350x350" class="img-responsive">
-                        <h2>Album Name</h2>
-                        <span>Year</span>
-                    </div>
-                    <div class="thumb-cont">
-                        <img src="http://via.placeholder.com/350x350" class="img-responsive">
-                        <h2>Album Name</h2>
-                        <span>Year</span>
-                    </div>   
-                    <div class="thumb-cont">
-                        <img src="http://via.placeholder.com/350x350" class="img-responsive">
-                        <h2>Album Name</h2>
-                        <span>Year</span>
-                    </div>                       
-                </div>
+                <h1>Most Popular Albums</h1>
+                <div class="row media-cont" id="albums"></div>
 
                 <!-- Music Videos -->
-                <div class="row media-cont top-spacer" id="music-videos">
-                    <h1>Music Videos</h1>
-                    <div class="thumb-cont">
-                        <img src="http://via.placeholder.com/125x70" class="img-responsive">
-                        <h2>Video Name</h2>
-                        <span>Year</span>
-                    </div>
-                    <div class="thumb-cont">
-                        <img src="http://via.placeholder.com/125x70" class="img-responsive">
-                        <h2>Video Name</h2>
-                        <span>Year</span>
-                    </div> 
-                    <div class="thumb-cont">
-                        <img src="http://via.placeholder.com/125x70" class="img-responsive">
-                        <h2>Video Name</h2>
-                        <span>Year</span>
-                    </div>     
-                    <div class="thumb-cont">
-                        <img src="http://via.placeholder.com/125x70" class="img-responsive">
-                        <h2>Video Name</h2>
-                        <span>Year</span>
-                    </div>                                                      
-                </div>
+                <h1>Music Videos</h1>
+                <div class="row media-cont top-spacer" id="music-videos"></div>
 
                 <!-- Related Artists -->
-                <div class="row media-cont top-spacer" id="related-artists">
-                    <h1>Related Artists</h1>
-                    <div class="thumb-cont">
-                        <img src="http://via.placeholder.com/350x350" class="img-responsive">
-                        <h2>Artist Name</h2>
-                    </div>    
-                    <div class="thumb-cont">
-                        <img src="http://via.placeholder.com/350x350" class="img-responsive">
-                        <h2>Artist Name</h2>
-                    </div>      
-                    <div class="thumb-cont">
-                        <img src="http://via.placeholder.com/350x350" class="img-responsive">
-                        <h2>Artist Name</h2>
-                    </div>    
-                    <div class="thumb-cont">
-                        <img src="http://via.placeholder.com/350x350" class="img-responsive">
-                        <h2>Artist Name</h2>
-                    </div>
-                </div>
+                <h1>Related Artists</h1>
+                <div class="row media-cont top-spacer" id="related-artists"></div>
             </div>
 
             <!-- Tour Info -->
             <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12" id="tour-info">
                 <div id="tour-gutter">
                     <h1>Tour Dates</h1>
-                    <h2>April 28th, 2018</h2>
-                    Venue name<br>
-                    Location, State<br>
-                    <a href="">Tickets</a>
-                    <h2>April 28th, 2018</h2>
-                    Venue name<br>
-                    Location, State<br>
-                    <a href="">Tickets</a>
-                    <h2>April 28th, 2018</h2>
-                    Venue name<br>
-                    Location, State<br>
-                    <a href="">Tickets</a>
-                    <h2>April 28th, 2018</h2>
-                    Venue name<br>
-                    Location, State<br>
-                    <a href="">Tickets</a>
-                    <h2>April 28th, 2018</h2>
-                    Venue name<br>
-                    Location, State<br>
-                    <a href="">Tickets</a>
+                    <div id="dates"></div>
                 </div>
             </div>
 
@@ -166,24 +83,7 @@
     </div>
 
 
+<script type="text/javascript" src="assets/javascript/app.js"></script>
 
-<script>
-    // Media query max-width: 480px
-    function xxs(x) {
-        if (x.matches) {
-            $('#artist-pic').removeClass('col-xs-5').addClass('col-xs-12');
-            $('#artist-info').removeClass('col-xs-7').addClass('col-xs-12');
-        }
-        else {
-            $('#artist-pic').removeClass('col-xs-12').addClass('col-xs-5');
-            $('#artist-info').removeClass('col-xs-12').addClass('col-xs-7');
-
-        }
-    }
-    var x = window.matchMedia("(max-width: 480px)");
-    xxs(x);
-    x.addListener(xxs);
-
-</script>
 </body>
 </html>
