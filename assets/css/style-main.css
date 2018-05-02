@@ -121,6 +121,12 @@ h2 {
     float: left;
 }
 
+.thumbnail {
+    border: 0;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
 .thumb-cont img {
     width: 100%;
 }
@@ -132,6 +138,10 @@ h2 {
 #media-info {
     background: #FFFFFF;
     padding: 30px 30px;
+}
+
+#music-videos {
+    padding: 0;
 }
 
 /*==========  Tour Info  ==========*/
