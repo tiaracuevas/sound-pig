@@ -20,7 +20,7 @@
 input, select, textarea, button{font-family:inherit;}
 
 body {
-    background-color: #F9F7F7;
+    background-color: #fff6f6;
     font-family: Avenir;
     color: #333834;
 }
@@ -234,10 +234,16 @@ h2 {
         #search-bar {
             width: 537px;
         }
+        .thumb-cont {
+            width: 170px;
+        }
     }
 
     /* Small Devices, Tablets */
     @media only screen and (max-width : 768px) {
+        .thumb-cont {
+            width: 120px;
+        }
         #top-bar {
             width: 100%; 
         }

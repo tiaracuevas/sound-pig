@@ -45,7 +45,7 @@
 $('#go-btn').on("click", function(event) {
     // Set search in localStorage
     localStorage.clear();
-    localStorage.setItem("artist", $('#search-bar').val());  
+    localStorage.setItem("artist", $('#search-bar').val().trim());  
 
     window.location.href="main.html";
     });
