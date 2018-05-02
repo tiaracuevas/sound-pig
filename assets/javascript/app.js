@@ -3,13 +3,14 @@ $(document).ready(function() {
     if (localStorage.getItem('artist') !== null) {
         displayArtist();
     }
+
 });
 
 // On click for GO button
 $('#go-btn').on("click", function(event) {
     // Set search in localStorage
     localStorage.clear();
-    localStorage.setItem("artist", $('#search-bar').val());  
+    localStorage.setItem("artist", $('#search-bar').val().toLowerCase().trim());  
 
     // Search for artist input
     displayArtist();
@@ -53,41 +54,91 @@ function displayArtist() {
         url: queryArtistURL,
         method: "GET"})
         .done(function(response){
-            var data = response.artist.image[3];
-            
-            //Image
-            var image = $('<img>');
-            image.attr({src: data["#text"], id:"artist-img"});
-            $('#artist-pic').append(image);
-            
-            //Artist Name info
-            var name = response.artist.name;
-            $("#artist-header").html(name);   
 
-            //Bio Info
-            var info = response.artist.bio.summary;
-            $('#artist-text').append(info);
-            
-            //Display Similar Artist
-            var similarArtist = response.artist.similar.artist;
+            // If no artist info
+            if (response.error) {
+                $('#bottom-info').hide();
+                $('#tour-info').hide();
+                $('<p>No info found. Please check spelling and try again.</p>').appendTo('#artist-text');
+            }
+            else {
+                var content = response.artist.bio.content;
+                var summary = response.artist.bio.summary;
+                if (content === "") {
+                    $('#bottom-info').hide();
+                    $('#tour-info').hide();
+                    $('<p>No info found. Please check spelling and try again.</p>').appendTo('#artist-text');
+                }
+                else if (summary.match('Incorrect')){
+                    $('#bottom-info').hide();
+                    $('#tour-info').hide();
+                    $('<p>No info found. Please check spelling and try again.</p>').appendTo('#artist-text');
+                }
+                else {
+                    $('#bottom-info').show();
+                    $('#tour-info').show();
+                
+                    //Image
+                    var data = response.artist.image[3];
+                    var image = $('<img>');
+                    image.attr({src: data["#text"], id:"artist-img"});
+                    $('#artist-pic').append(image);
+                    
+                    //Artist Name info
+                    var name = response.artist.name;
+                    $("#artist-header").html(name);   
 
-            //Initialize similar Artist Div           
-            for (var i = 0; i < similarArtist.length; i++) {
-                var similarArtistLink = $('<a target="_blank" href="' + similarArtist[i].url + '">');
-                var similarArtistDiv = $('<div class="thumb-cont">');
-                $(similarArtistLink).append(similarArtistDiv);
-                $("#related-artists").append(similarArtistLink);
+                    //Bio Info
+                    var info = response.artist.bio.summary;
+                    $('#artist-text').append(info);
+                    
+                    //Display Similar Artist / count artists
+                    var similarArtist = response.artist.similar.artist,
+                        artistCount = 0;
 
-                //Initialize artist Image
-                var similarArtistImage = $('<img>');
-                similarArtistImage.attr("src", similarArtist[i].image[2]["#text"]);
-                $(similarArtistDiv).append(similarArtistImage);
+                    if (similarArtist.length == 0) {
+                        $('#related_header').hide();
+                    }
+                    else {
+                    //Initialize similar Artist Div           
+                        for (var i = 0; i < similarArtist.length; i++) {
+                            if (artistCount < 5) {
+                                var similarArtistLink = $('<a target="_blank" href="' + similarArtist[i].url + '">');
+                                var similarArtistDiv = $('<div class="thumb-cont">');
+                                $(similarArtistLink).append(similarArtistDiv);
+                                $("#related-artists").append(similarArtistLink);
 
-                //Initialize Similar Artist Name
-                var similarArtistName = $('<h2>' + similarArtist[i].name + '</h2>');
-                $(similarArtistDiv).append(similarArtistName);
-            } 
-         
+                                //Initialize artist Image
+                                var similarArtistImage = $('<img>');
+                                similarArtistImage.attr("src", similarArtist[i].image[3]["#text"]);
+                                $(similarArtistDiv).append(similarArtistImage);
+
+                                //Initialize Similar Artist Name
+                                var similarArtistName = $('<h2>' + similarArtist[i].name + '</h2>');
+                                $(similarArtistDiv).append(similarArtistName);
+
+                                // Add clear fix class
+                                artistCount++;
+                                similarArtistDiv.addClass('clear'+artistCount);
+                            }
+                        } 
+                    }
+
+                    // Clear Fix
+                    if ($(window).width() > 1200) {
+                        largeClear();
+                    }
+                    else if ($(window).width() > 992) {
+                        medClear();
+                    }
+                    else if ($(window).width() > 768) {
+                        smallClear();
+                    }
+                    else if ($(window).width() > 630) {
+                        smallerClear();
+                    }
+                }
+            }
         });
 
     // Similar artists Last.fm API query
@@ -96,24 +147,31 @@ function displayArtist() {
         method: "GET"})
         .done(function(albumResponse){
             
-            //Initialize variable for Top Albums
-            var topAlbums = albumResponse.topalbums.album;
+            //Initialize variables
+            var topAlbums = albumResponse.topalbums.album,
+                albumCount = 0;
 
             //Grab Top Album Info
             for (var i = 0; i < topAlbums.length; i++) {
-                var topAlbumsLink = $('<a target="_blank" href="' +topAlbums[i].url + '">');
-                var topAlbumsDiv = $('<div class="thumb-cont">');
-                $(topAlbumsLink).append(topAlbumsDiv);
-                $('#albums').append(topAlbumsLink);
+                if (albumCount < 5) {
+                    var topAlbumsLink = $('<a target="_blank" href="' +topAlbums[i].url + '">');
+                    var topAlbumsDiv = $('<div class="thumb-cont">');
+                    $(topAlbumsLink).append(topAlbumsDiv);
+                    $('#albums').append(topAlbumsLink);
 
-                //Inialize top albums Image
-                var topAlbumsImage = $('<img>');
-                topAlbumsImage.attr("src", topAlbums[i].image[2]["#text"]);
-                $(topAlbumsDiv).append(topAlbumsImage);
+                    //Inialize top albums Image
+                    var topAlbumsImage = $('<img>');
+                    topAlbumsImage.attr("src", topAlbums[i].image[3]["#text"]);
+                    $(topAlbumsDiv).append(topAlbumsImage);
 
-                //Initialize Top Album Name
-                var topAlbumsName = $('<h2>' + topAlbums[i].name + '</h2>');
-                $(topAlbumsDiv).append(topAlbumsName);
+                    //Initialize Top Album Name
+                    var topAlbumsName = $('<h2>' + topAlbums[i].name + '</h2>');
+                    $(topAlbumsDiv).append(topAlbumsName);
+
+                    // Add clear fix class
+                    albumCount++;
+                    topAlbumsDiv.addClass('clear'+albumCount);
+                }
             }
         });
     
@@ -150,6 +208,11 @@ function displayArtist() {
             $('<a>').addClass('link ticketlink'+i).attr('href', sale).appendTo('#dates');
             $('<p>').append('Tickets').appendTo('.ticketlink'+i);   
             }
+
+            //Empty response
+            if (response == "") {
+                $('<p>No tour dates found</p>').appendTo('#dates');
+            }
         });
 
     // Music video IMVDb API query
@@ -164,47 +227,67 @@ function displayArtist() {
                 vidImage = '',
                 vidTitle = '',
                 vidURL = '',
-                vidYear = null;
+                vidYear = null,
+                vidCount = 0;
 
             // Store values in variables
             for (i=0;i<response.results.length;i++) {
-                vidArtist = response.results[i].artists[0].name;
-                if (vidArtist.toLowerCase() == localStorage.getItem('artist')) {
-                    vidImage = response.results[i].image.l;
-                    vidTitle = response.results[i].song_title;
-                    vidURL = response.results[i].url;
+                if (vidCount < 15) {
+                    vidArtist = response.results[i].artists[0].name;
+                    if (vidArtist.toLowerCase() === localStorage.getItem('artist')) {
+                        vidImage = response.results[i].image.l;
+                        vidTitle = response.results[i].song_title;
+                        vidURL = response.results[i].url;
 
-                    // Check if year exists
-                    if (response.results[i].year !== null) {
-                        vidYear = response.results[i].year;
-                    }
-                
-                    // Display videos
-                    var videoDiv = $('<div class="thumb-cont">'),
-                        vidLink = $('<a href="' + vidURL + '">');
+                         //Show Video containers
+                        $('#video_header').show();
+                        $('#music-videos').show();
+
+                        // Check if year exists
+                        if (response.results[i].year !== null) {
+                            vidYear = response.results[i].year;
+                        }
                     
-                    $(vidLink).append(videoDiv);
-                    $('#music-videos').append(vidLink);
+                        // Display videos
+                        var videoDiv = $('<div class="thumb-cont">'),
+                            vidLink = $('<a target="_blank" href="' + vidURL + '">');
+                        
+                        $(vidLink).append(videoDiv);
+                        $('#music-videos').append(vidLink);
+                        $('<img>').attr('src', vidImage).appendTo(videoDiv);
+                        $('<h2>').text(vidTitle).appendTo(videoDiv);
 
-                    $('<img>').attr('src', vidImage).appendTo(videoDiv);
-                    $('<h2>').text(vidTitle).appendTo(videoDiv);
+                        if (vidYear !== null) {
+                            $('<span>').text(vidYear).appendTo(videoDiv);
+                        }
 
-                    if (vidYear !== null) {
-                        $('<span>').text(vidYear).appendTo(videoDiv);
+                        vidCount++;
+                        videoDiv.addClass('clear'+vidCount);
+
                     }
-        
                 }
+
             }
+            if (vidCount == 0) {
+                //Hide Containers
+                $('#video_header').hide();
+                $('#music-videos').hide();
+            }
+            
         });
 
             
     // Empty search
-    $('#search-bar').val('');   
+    $('#search-bar').val(''); 
+
+
 }
 
-// Media query max-width: 480px
-function xxs(x) {
-    if (x.matches) {
+// Media queries
+
+// Media query max-width: 480px (small screen fix)
+function xxs(smFix) {
+    if (smFix.matches) {
         $('#artist-pic').removeClass('col-xs-5').addClass('col-xs-12');
         $('#artist-info').removeClass('col-xs-7').addClass('col-xs-12');
     }
@@ -213,7 +296,132 @@ function xxs(x) {
         $('#artist-info').removeClass('col-xs-12').addClass('col-xs-7');
     }
 }
-var x = window.matchMedia("(max-width: 480px)");
-xxs(x);
-x.addListener(xxs);
+var smFix = window.matchMedia("(max-width: 480px)");
+xxs(smFix);
+smFix.addListener(xxs);
+
+// Large Window Clear fix (1200px)
+function largeClear() {
+    if (large.matches) {
+        var checkIntXL = setInterval(clearcheckXL, 200);
+        function clearcheckXL() {
+            for (x=1;x<=15;x++) {
+                if (x % 5 == 0){
+                    var clearNum = '$("'+'.clear'+(x+1)+'")';
+                    var check = eval(clearNum);
+                    check.attr('style', 'clear:both');
+                }
+                else {
+                    var noClear = '$("'+'.clear'+(x+1)+'")';
+                    var noClearEval = eval(noClear);
+                    noClearEval.removeAttr('style');
+                }
+            }
+            clearInterval(checkIntXL);
+        }
+    }
+    else {
+        var checkIntL = setInterval(clearcheckL, 200);
+        function clearcheckL() {
+            for (x=1;x<=15;x++) {
+                if (x % 4 == 0){
+                    var clearNum = '$("'+'.clear'+(x+1)+'")';
+                    var check = eval(clearNum);
+                    check.attr('style', 'clear:both');
+                }
+                else {
+                    var noClear = '$("'+'.clear'+(x+1)+'")';
+                    var noClearEval = eval(noClear);
+                    noClearEval.removeAttr('style');
+                }
+            }
+            clearInterval(checkIntL);
+        }
+
+    }
+}
+var large = window.matchMedia('(min-width: 1200px)');
+large.addListener(largeClear);
+
+// Medium Window Clear fix (992px)
+function medClear() {
+    if(medium.matches) {
+        largeClear();
+    }
+    else {
+        var checkInt = setInterval(clearcheck, 200);
+        function clearcheck() {
+            for (x=1;x<=15;x++) {
+                if (x % 2 == 0){
+                    var clearNum = '$("'+'.clear'+(x+1)+'")';
+                    var check = eval(clearNum);
+                    check.attr('style', 'clear:both');
+                }
+                else {
+                    var noClear = '$("'+'.clear'+(x+1)+'")';
+                    var noClearEval = eval(noClear);
+                    noClearEval.removeAttr('style');
+                }
+            }
+            clearInterval(checkInt);
+        }   
+    }
+}
+var medium = window.matchMedia('(min-width: 992px)');
+medium.addListener(medClear);
+
+// Small Window Clear fix (768px)
+function smClear() {
+    if(small.matches) {
+        medClear();
+    }
+    else {
+        var checkInt = setInterval(clearcheck, 200);
+        function clearcheck() {
+            for (x=1;x<=15;x++) {
+                if (x % 4 == 0){
+                    var clearNum = '$("'+'.clear'+(x+1)+'")';
+                    var check = eval(clearNum);
+                    check.attr('style', 'clear:both');
+                }
+                else {
+                    var noClear = '$("'+'.clear'+(x+1)+'")';
+                    var noClearEval = eval(noClear);
+                    noClearEval.removeAttr('style');
+                }
+            }
+            clearInterval(checkInt);
+        }   
+    }
+}
+var small = window.matchMedia('(min-width: 768px)');
+small.addListener(smClear);
+
+// Smaller Window Clear fix (768px)
+function smallerClear() {
+    if(smaller.matches) {
+        smClear();
+    }
+    else {
+        var checkInt = setInterval(clearcheck, 200);
+        function clearcheck() {
+            for (x=1;x<=15;x++) {
+                if (x % 3 == 0){
+                    var clearNum = '$("'+'.clear'+(x+1)+'")';
+                    var check = eval(clearNum);
+                    check.attr('style', 'clear:both');
+                }
+                else {
+                    var noClear = '$("'+'.clear'+(x+1)+'")';
+                    var noClearEval = eval(noClear);
+                    noClearEval.removeAttr('style');
+                }
+            }
+            clearInterval(checkInt);
+        }   
+    }
+}
+var smaller = window.matchMedia('(min-width: 630px)');
+smaller.addListener(smallerClear);
+
 
