@@ -125,18 +125,18 @@ function displayArtist() {
                     }
 
                     // Clear Fix
-                    if ($(window).width() > 1200) {
-                        largeClear();
-                    }
-                    else if ($(window).width() > 992) {
-                        medClear();
-                    }
-                    else if ($(window).width() > 768) {
-                        smallClear();
-                    }
-                    else if ($(window).width() > 630) {
-                        smallerClear();
-                    }
+                    // if ($(window).width() > 1200) {
+                    //     clearRows(w1200high,5);
+                    // }
+                    // else if ($(window).width() > 992) {
+                    //     clearRows(w992high,2);
+                    // }
+                    // else if ($(window).width() > 768) {
+                    //     smallClear();
+                    // }
+                    // else if ($(window).width() > 630) {
+                    //     smallerClear();
+                    // }
                 }
             }
         });
@@ -300,13 +300,41 @@ var smFix = window.matchMedia("(max-width: 480px)");
 xxs(smFix);
 smFix.addListener(xxs);
 
-// Large Window Clear fix (1200px)
-function largeClear() {
-    if (large.matches) {
-        var checkIntXL = setInterval(clearcheckXL, 200);
-        function clearcheckXL() {
+
+// Row clear fix
+var w630high = window.matchMedia('(min-width: 630px)');
+w630high.addListener(clearRows630); 
+function clearRows630(x) {
+    clearRows(x, 2, 3); // >630px 2 per row, <630px 3 per row
+    console.log('630');
+}
+
+var w768high = window.matchMedia('(min-width: 768px)');
+w768high.addListener(clearRows768); 
+function clearRows768(x) {
+    clearRows(x, 2, 2); // >768px 2 per row, <768px 2 per row
+    console.log('768');
+}
+
+var w992high = window.matchMedia('(min-width: 992px)');
+w992high.addListener(clearRows992); 
+function clearRows992(x) {
+    clearRows(x, 3, 2); // >992px 3 per row, <992px 2 per row
+    console.log('992');
+}
+
+var w1200high = window.matchMedia('(min-width: 1200px)');
+w1200high.addListener(clearRows1200); 
+function clearRows1200(x) {
+    clearRows(x, 5, 4); // >1200px 5 per row, <1200px 4 per row
+    console.log('1200')
+}
+
+function clearRows(query, maxRow, minRow) {
+    if (query.matches) {
+        var clearCheckMax = function clearCheckMax() {
             for (x=1;x<=15;x++) {
-                if (x % 5 == 0){
+                if (x % maxRow == 0){
                     var clearNum = '$("'+'.clear'+(x+1)+'")';
                     var check = eval(clearNum);
                     check.attr('style', 'clear:both');
@@ -317,14 +345,14 @@ function largeClear() {
                     noClearEval.removeAttr('style');
                 }
             }
-            clearInterval(checkIntXL);
-        }
+            clearInterval(checkIntMax);
+        };
+        var checkIntMax = setInterval(clearCheckMax, 200);
     }
     else {
-        var checkIntL = setInterval(clearcheckL, 200);
-        function clearcheckL() {
+        var clearCheckMin = function clearCheckMin() {
             for (x=1;x<=15;x++) {
-                if (x % 4 == 0){
+                if (x % minRow == 0){
                     var clearNum = '$("'+'.clear'+(x+1)+'")';
                     var check = eval(clearNum);
                     check.attr('style', 'clear:both');
@@ -335,93 +363,11 @@ function largeClear() {
                     noClearEval.removeAttr('style');
                 }
             }
-            clearInterval(checkIntL);
-        }
-
+            clearInterval(checkIntMin);
+        };
+        var checkIntMin = setInterval(clearCheckMin, 200);
     }
 }
-var large = window.matchMedia('(min-width: 1200px)');
-large.addListener(largeClear);
 
-// Medium Window Clear fix (992px)
-function medClear() {
-    if(medium.matches) {
-        largeClear();
-    }
-    else {
-        var checkInt = setInterval(clearcheck, 200);
-        function clearcheck() {
-            for (x=1;x<=15;x++) {
-                if (x % 2 == 0){
-                    var clearNum = '$("'+'.clear'+(x+1)+'")';
-                    var check = eval(clearNum);
-                    check.attr('style', 'clear:both');
-                }
-                else {
-                    var noClear = '$("'+'.clear'+(x+1)+'")';
-                    var noClearEval = eval(noClear);
-                    noClearEval.removeAttr('style');
-                }
-            }
-            clearInterval(checkInt);
-        }   
-    }
-}
-var medium = window.matchMedia('(min-width: 992px)');
-medium.addListener(medClear);
-
-// Small Window Clear fix (768px)
-function smClear() {
-    if(small.matches) {
-        medClear();
-    }
-    else {
-        var checkInt = setInterval(clearcheck, 200);
-        function clearcheck() {
-            for (x=1;x<=15;x++) {
-                if (x % 4 == 0){
-                    var clearNum = '$("'+'.clear'+(x+1)+'")';
-                    var check = eval(clearNum);
-                    check.attr('style', 'clear:both');
-                }
-                else {
-                    var noClear = '$("'+'.clear'+(x+1)+'")';
-                    var noClearEval = eval(noClear);
-                    noClearEval.removeAttr('style');
-                }
-            }
-            clearInterval(checkInt);
-        }   
-    }
-}
-var small = window.matchMedia('(min-width: 768px)');
-small.addListener(smClear);
-
-// Smaller Window Clear fix (768px)
-function smallerClear() {
-    if(smaller.matches) {
-        smClear();
-    }
-    else {
-        var checkInt = setInterval(clearcheck, 200);
-        function clearcheck() {
-            for (x=1;x<=15;x++) {
-                if (x % 3 == 0){
-                    var clearNum = '$("'+'.clear'+(x+1)+'")';
-                    var check = eval(clearNum);
-                    check.attr('style', 'clear:both');
-                }
-                else {
-                    var noClear = '$("'+'.clear'+(x+1)+'")';
-                    var noClearEval = eval(noClear);
-                    noClearEval.removeAttr('style');
-                }
-            }
-            clearInterval(checkInt);
-        }   
-    }
-}
-var smaller = window.matchMedia('(min-width: 630px)');
-smaller.addListener(smallerClear);
 
 
