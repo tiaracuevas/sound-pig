@@ -227,6 +227,9 @@ h2 {
         #search-bar {
             width: 757px;
         }
+        .thumb-cont {
+            width: 170px;
+        }
     }
 
     /* Medium Devices, Desktops */
@@ -242,7 +245,7 @@ h2 {
     /* Small Devices, Tablets */
     @media only screen and (max-width : 768px) {
         .thumb-cont {
-            width: 120px;
+            width: 250px;
         }
         #top-bar {
             width: 100%; 
@@ -271,6 +274,13 @@ h2 {
         }
     }
 
+    /* Smaller Devices */
+    @media only screen and (max-width: 630px) {
+        .thumb-cont {
+            width: 120px;
+        }
+    }
+
     /* Extra Small Devices, Phones */ 
     @media only screen and (max-width : 480px) {
         #main-info {
@@ -281,6 +291,10 @@ h2 {
         }
         #logo-compact {
             width: 250px;
+        }
+        #dates {
+            max-height: none;
+            overflow: visible;
         }
         .thumb-cont {
             width: 100%;
