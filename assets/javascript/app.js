@@ -3,7 +3,6 @@ $(document).ready(function() {
     if (localStorage.getItem('artist') !== null) {
         displayArtist();
     }
-
 });
 
 // On click for GO button
@@ -123,20 +122,6 @@ function displayArtist() {
                             }
                         } 
                     }
-
-                    // Clear Fix
-                    // if ($(window).width() > 1200) {
-                    //     clearRows(w1200high,5);
-                    // }
-                    // else if ($(window).width() > 992) {
-                    //     clearRows(w992high,2);
-                    // }
-                    // else if ($(window).width() > 768) {
-                    //     smallClear();
-                    // }
-                    // else if ($(window).width() > 630) {
-                    //     smallerClear();
-                    // }
                 }
             }
         });
@@ -302,31 +287,35 @@ smFix.addListener(xxs);
 
 
 // Row clear fix
-var w630high = window.matchMedia('(min-width: 630px)');
-w630high.addListener(clearRows630); 
+var w630 = window.matchMedia('(min-width: 630px)');
+w630.addListener(clearRows630); 
+clearRows630(w630);
 function clearRows630(x) {
     clearRows(x, 2, 3); // >630px 2 per row, <630px 3 per row
     console.log('630');
 }
 
-var w768high = window.matchMedia('(min-width: 768px)');
-w768high.addListener(clearRows768); 
+var w768 = window.matchMedia('(min-width: 768px)');
+w768.addListener(clearRows768); 
+clearRows768(w768);
 function clearRows768(x) {
     clearRows(x, 2, 2); // >768px 2 per row, <768px 2 per row
     console.log('768');
 }
 
-var w992high = window.matchMedia('(min-width: 992px)');
-w992high.addListener(clearRows992); 
+var w992 = window.matchMedia('(min-width: 992px)');
+w992.addListener(clearRows992);
+clearRows992(w992); 
 function clearRows992(x) {
     clearRows(x, 3, 2); // >992px 3 per row, <992px 2 per row
     console.log('992');
 }
 
-var w1200high = window.matchMedia('(min-width: 1200px)');
-w1200high.addListener(clearRows1200); 
+var w1200 = window.matchMedia('(min-width: 1200px)');
+w1200.addListener(clearRows1200); 
+clearRows1200(w1200);
 function clearRows1200(x) {
-    clearRows(x, 5, 4); // >1200px 5 per row, <1200px 4 per row
+    clearRows(x, 5, 3); // >1200px 5 per row, <1200px 3 per row
     console.log('1200')
 }
 
