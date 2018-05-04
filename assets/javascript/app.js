@@ -3,7 +3,6 @@ $(document).ready(function() {
     if (localStorage.getItem('artist') !== null) {
         displayArtist();
     }
-
 });
 
 // On click for GO button
@@ -39,6 +38,12 @@ function displayArtist() {
     $('#music-videos').empty();
     $('#related-artists').empty();
     $('#dates').empty();
+
+    // Row clear fix
+    clearRows630(w630);
+    clearRows768(w768);
+    clearRows992(w992); 
+    clearRows1200(w1200);
 
 
     var artist = localStorage.getItem('artist');
@@ -123,37 +128,27 @@ function displayArtist() {
                             }
                         } 
                     }
-
-                    // Clear Fix
-                    // if ($(window).width() > 1200) {
-                    //     clearRows(w1200high,5);
-                    // }
-                    // else if ($(window).width() > 992) {
-                    //     clearRows(w992high,2);
-                    // }
-                    // else if ($(window).width() > 768) {
-                    //     smallClear();
-                    // }
-                    // else if ($(window).width() > 630) {
-                    //     smallerClear();
-                    // }
                 }
             }
         });
 
-    // Similar artists Last.fm API query
+    // Top Albums Last.fm API query
     $.ajax({
         url: queryTopAlbumsURL,
         method: "GET"})
         .done(function(albumResponse){
             
             //Initialize variables
-            var topAlbums = albumResponse.topalbums.album,
-                albumCount = 0;
+            var topAlbums = albumResponse.topalbums.album;
+            var albumCount = 0,
+                releaseDate = '';
 
             //Grab Top Album Info
             for (var i = 0; i < topAlbums.length; i++) {
                 if (albumCount < 5) {
+                    // Get album name
+                    var albumName = topAlbums[i].name;
+
                     var topAlbumsLink = $('<a target="_blank" href="' +topAlbums[i].url + '">');
                     var topAlbumsDiv = $('<div class="thumb-cont">');
                     $(topAlbumsLink).append(topAlbumsDiv);
@@ -165,8 +160,12 @@ function displayArtist() {
                     $(topAlbumsDiv).append(topAlbumsImage);
 
                     //Initialize Top Album Name
-                    var topAlbumsName = $('<h2>' + topAlbums[i].name + '</h2>');
+                    var topAlbumsName = $('<h2 id="albumName'+i+'">' + topAlbums[i].name + '</h2>');
                     $(topAlbumsDiv).append(topAlbumsName);
+
+                    //Initialize Top Album Year
+                    var year = $('<span id="albumYear'+i+'"></span>');
+                    year.appendTo(topAlbumsDiv);
 
                     // Add clear fix class
                     albumCount++;
@@ -174,6 +173,24 @@ function displayArtist() {
                 }
             }
         });
+    
+    // Album year search & display
+    setTimeout(albumYearSet, 200);
+        function albumYearSet(){
+            for (var i=0;i<5;i++) {
+                (function (i) {
+                        var album = $('#albumName'+i).text();
+                        $.ajax({
+                            url: 'https://musicbrainz.org/ws/2/release?query=' + album + '&fmt=json',
+                            method: "GET"})
+                            .done(function(infoResponse){
+                                var rawDate = infoResponse.releases[0].date;
+                                releaseDate = moment(rawDate).format('YYYY');
+                                $('#albumYear'+i).text(releaseDate);
+                            });
+                })(i);
+            }
+        }
     
     // Tour dates Bandsintown API query
     $.ajax({url:queryTourURL, method: 'GET'})
@@ -215,24 +232,24 @@ function displayArtist() {
             }
         });
 
+    var vidCount = '';
     // Music video IMVDb API query
     $.ajax({
         url:queryVideosURL, 
         method: 'GET', 
     })
         .done(function(response){
-            console.log(response);
 
             var vidArtist = '',
                 vidImage = '',
                 vidTitle = '',
                 vidURL = '',
-                vidYear = null,
-                vidCount = 0;
+                vidYear = null;
+
 
             // Store values in variables
             for (i=0;i<response.results.length;i++) {
-                if (vidCount < 15) {
+                if (vidCount < response.results.length) {
                     vidArtist = response.results[i].artists[0].name;
                     if (vidArtist.toLowerCase() === localStorage.getItem('artist')) {
                         vidImage = response.results[i].image.l;
@@ -262,7 +279,7 @@ function displayArtist() {
                         }
 
                         vidCount++;
-                        videoDiv.addClass('clear'+vidCount);
+                        // videoDiv.addClass('clear'+vidCount);
 
                     }
                 }
@@ -275,7 +292,25 @@ function displayArtist() {
             }
             
         });
+    
+    // Sort music videos
+    setTimeout(function(){
+        var links = $('#music-videos a');
+        var numericallyOrderedDivs = links.sort(function (a, b) {
+            return parseInt($(a).find('span').text().trim()) - parseInt($(b).find('span').text().trim());
+        });
+        $('#music-videos').html(numericallyOrderedDivs);
 
+        for (i=0;i<vidCount;i++){
+            // Add class for row clear fix
+            $(numericallyOrderedDivs[i]).find('div').addClass('clear'+(i+1));
+            // Row clear fix
+            clearRows630(w630);
+            clearRows768(w768);
+            clearRows992(w992); 
+            clearRows1200(w1200);
+        }
+    },500);
             
     // Empty search
     $('#search-bar').val(''); 
@@ -302,38 +337,34 @@ smFix.addListener(xxs);
 
 
 // Row clear fix
-var w630high = window.matchMedia('(min-width: 630px)');
-w630high.addListener(clearRows630); 
+var w630 = window.matchMedia('(min-width: 630px)');
+w630.addListener(clearRows630); 
 function clearRows630(x) {
     clearRows(x, 2, 3); // >630px 2 per row, <630px 3 per row
-    console.log('630');
 }
 
-var w768high = window.matchMedia('(min-width: 768px)');
-w768high.addListener(clearRows768); 
+var w768 = window.matchMedia('(min-width: 768px)');
+w768.addListener(clearRows768); 
 function clearRows768(x) {
     clearRows(x, 2, 2); // >768px 2 per row, <768px 2 per row
-    console.log('768');
 }
 
-var w992high = window.matchMedia('(min-width: 992px)');
-w992high.addListener(clearRows992); 
+var w992 = window.matchMedia('(min-width: 992px)');
+w992.addListener(clearRows992);
 function clearRows992(x) {
     clearRows(x, 3, 2); // >992px 3 per row, <992px 2 per row
-    console.log('992');
 }
 
-var w1200high = window.matchMedia('(min-width: 1200px)');
-w1200high.addListener(clearRows1200); 
+var w1200 = window.matchMedia('(min-width: 1200px)');
+w1200.addListener(clearRows1200); 
 function clearRows1200(x) {
-    clearRows(x, 5, 4); // >1200px 5 per row, <1200px 4 per row
-    console.log('1200')
+    clearRows(x, 5, 3); // >1200px 5 per row, <1200px 3 per row
 }
 
 function clearRows(query, maxRow, minRow) {
     if (query.matches) {
         var clearCheckMax = function clearCheckMax() {
-            for (x=1;x<=15;x++) {
+            for (x=1;x<=30;x++) {
                 if (x % maxRow == 0){
                     var clearNum = '$("'+'.clear'+(x+1)+'")';
                     var check = eval(clearNum);
@@ -351,7 +382,7 @@ function clearRows(query, maxRow, minRow) {
     }
     else {
         var clearCheckMin = function clearCheckMin() {
-            for (x=1;x<=15;x++) {
+            for (x=1;x<=30;x++) {
                 if (x % minRow == 0){
                     var clearNum = '$("'+'.clear'+(x+1)+'")';
                     var check = eval(clearNum);
