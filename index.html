@@ -42,6 +42,10 @@
 
 <script>
 // On click for GO button
+$(document).ready(function() {
+    $('#search-bar').empty();
+});
+
 $('#go-btn').on("click", function(event) {
     // Set search in localStorage
     localStorage.clear();
