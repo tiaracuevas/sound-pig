@@ -175,7 +175,7 @@ function displayArtist() {
         });
     
     // Album year search & display
-    setTimeout(albumYearSet, 200);
+    setTimeout(albumYearSet, 300);
         function albumYearSet(){
             for (var i=0;i<5;i++) {
                 (function (i) {
