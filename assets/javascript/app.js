@@ -297,7 +297,7 @@ function displayArtist() {
     setTimeout(function(){
         var links = $('#music-videos a');
         var numericallyOrderedDivs = links.sort(function (a, b) {
-            return parseInt($(a).find('span').text().trim()) - parseInt($(b).find('span').text().trim());
+            return parseInt($(b).find('span').text().trim()) - parseInt($(a).find('span').text().trim());
         });
         $('#music-videos').html(numericallyOrderedDivs);
 
